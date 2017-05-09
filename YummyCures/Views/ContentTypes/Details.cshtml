@@ -1,0 +1,26 @@
+﻿@model YummyCures.Models.ContentType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ContentType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ContentTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContentTypeDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ContentTypeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<YummyCures.Models.Content>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentType.ContentTypeDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentCreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentBody)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PreviewUrl)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentType.ContentTypeDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentCreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentBody)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PreviewUrl)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ContentID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ContentID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ContentID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -29,5 +29,13 @@ namespace YummyCures.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<YummyCures.Models.Comment> Comments { get; set; }
+
+        public System.Data.Entity.DbSet<YummyCures.Models.Content> Contents { get; set; }
+
+        public System.Data.Entity.DbSet<YummyCures.Models.ContentType> ContentTypes { get; set; }
+
+        public System.Data.Entity.DbSet<YummyCures.Models.Ingredient> Ingredients { get; set; }
     }
 }
