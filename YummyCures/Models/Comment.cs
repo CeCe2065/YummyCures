@@ -19,6 +19,7 @@ namespace YummyCures.Models
         public string EmailAddress { get; set; }
         public string CommentUrl { get; set; }
 
+
         [DataType(DataType.MultilineText)]
         public string CommentBody { get; set; }
 
