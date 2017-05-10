@@ -200,6 +200,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\ContentsApiController.cs" />
     <Compile Include="Controllers\ContentsController.cs" />
     <Compile Include="Controllers\ContentTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
