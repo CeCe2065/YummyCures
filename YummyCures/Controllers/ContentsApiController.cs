@@ -9,9 +9,12 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using YummyCures.Models;
+using Microsoft.AspNet.Identity;
 
 namespace YummyCures.Controllers
+
 {
+    [Authorize]
     public class ContentsApiController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,14 +22,18 @@ namespace YummyCures.Controllers
         // GET: api/ContentsApi
         public IQueryable<Content> GetContents()
         {
-            return db.Contents;
+            string userID = User.Identity.GetUserId();
+            return db.Contents.Where(p => p.UserID == userID);
         }
 
         // GET: api/ContentsApi/5
         [ResponseType(typeof(Content))]
         public IHttpActionResult GetContent(int id)
         {
-            Content content = db.Contents.Find(id);
+            string userID = User.Identity.GetUserId();
+            Content content = db.Contents.Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
+
+
             if (content == null)
             {
                 return NotFound();
@@ -51,6 +58,26 @@ namespace YummyCures.Controllers
 
             db.Entry(content).State = EntityState.Modified;
 
+            //Going to get the original and move all the properties over from the project that is passed in.
+
+            string userID = User.Identity.GetUserId();
+            Content originalContent = db.Contents.Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
+
+            if (originalContent == null)
+            {
+                return NotFound();
+            }
+
+            //Move over all the properties that need to be set.
+
+            originalContent.ContentTypeID = content.ContentTypeID;
+            originalContent.ContentBody = content.ContentBody;
+            originalContent.Title = content.Title;
+            originalContent.PreviewUrl = content.PreviewUrl;
+
+
+            db.Entry(originalContent).State = EntityState.Modified;
+
             try
             {
                 db.SaveChanges();
@@ -74,6 +101,8 @@ namespace YummyCures.Controllers
         [ResponseType(typeof(Content))]
         public IHttpActionResult PostContent(Content content)
         {
+            content.UserID = User.Identity.GetUserId();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -89,7 +118,9 @@ namespace YummyCures.Controllers
         [ResponseType(typeof(Content))]
         public IHttpActionResult DeleteContent(int id)
         {
-            Content content = db.Contents.Find(id);
+            string userID = User.Identity.GetUserId();
+            Content content = db.Contents.Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
+
             if (content == null)
             {
                 return NotFound();
@@ -112,7 +143,9 @@ namespace YummyCures.Controllers
 
         private bool ContentExists(int id)
         {
-            return db.Contents.Count(e => e.ContentID == id) > 0;
+            string userID = User.Identity.GetUserId();
+            return db.Contents.Count(p => p.UserID == userID && p.ContentID == id) > 0;
+
         }
     }
 }

@@ -20,7 +20,9 @@ namespace YummyCures.Controllers
         public ActionResult Index()
         {
             var contents = db.Contents.Include(c => c.ContentType).Include(u => u.User);
-            return View(contents.ToList());
+            string userID = User.Identity.GetUserId();
+            return View(contents.Where(p => p.UserID == userID).ToList());
+
         }
 
         // GET: Contents/Details/5
@@ -73,7 +75,10 @@ namespace YummyCures.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Content content = db.Contents.Find(id);
+
+            string userID = User.Identity.GetUserId();
+            Content content = db.Contents.Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
+
             if (content == null)
             {
                 return HttpNotFound();
@@ -89,10 +94,25 @@ namespace YummyCures.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ContentID,ContentCreatedDate,UserID,ContentTypeID,Title,ContentBody,PreviewUrl")] Content content)
         {
-            content.UserID = User.Identity.GetUserId();
+            //Going to get the original and move all the properties over from the project that is passed in.
+            string userID = User.Identity.GetUserId();
+            Content originalContent = db.Contents.Where(p => p.UserID == userID && p.ContentID == content.ContentID).FirstOrDefault();
+
+            if (originalContent == null)
+            {
+                return HttpNotFound();
+            }
+
+            //Move over all the properties that need to be set.
+            originalContent.ContentTypeID = content.ContentTypeID;
+            originalContent.ContentBody = content.ContentBody;
+            originalContent.Title = content.Title;
+            originalContent.PreviewUrl = content.PreviewUrl;
+
+            //content.UserID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
-                db.Entry(content).State = EntityState.Modified;
+                db.Entry(originalContent).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -107,7 +127,9 @@ namespace YummyCures.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Content content = db.Contents.Find(id);
+            string userID = User.Identity.GetUserId();
+            Content content = db.Contents.Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
+
             if (content == null)
             {
                 return HttpNotFound();
@@ -120,7 +142,9 @@ namespace YummyCures.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Content content = db.Contents.Find(id);
+            string userID = User.Identity.GetUserId();
+            Content content = db.Contents.Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
+
             db.Contents.Remove(content);
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -26,7 +26,5 @@ namespace YummyCures.Models
         public string PreviewUrl { get; set; }
 
         public List<Ingredient> Ingredients { get; set; }
-
-
     }
 }
