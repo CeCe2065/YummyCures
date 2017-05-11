@@ -25,6 +25,8 @@ namespace YummyCures
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/modern-business.css",
+                      "~/Content/font-awesome/css/font-awesome.css",                   
                       "~/Content/site.css"));
         }
     }
