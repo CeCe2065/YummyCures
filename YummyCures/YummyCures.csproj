@@ -217,10 +217,15 @@
     <Compile Include="Migrations\201705091951432_AddedUserPropertyToContentModel.Designer.cs">
       <DependentUpon>201705091951432_AddedUserPropertyToContentModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705191612352_Thumbnail Url property.cs" />
+    <Compile Include="Migrations\201705191612352_Thumbnail Url property.Designer.cs">
+      <DependentUpon>201705191612352_Thumbnail Url property.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Content.cs" />
+    <Compile Include="Models\ContentIndexViewModel.cs" />
     <Compile Include="Models\ContentType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Ingredient.cs" />
@@ -366,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705091951432_AddedUserPropertyToContentModel.resx">
       <DependentUpon>201705091951432_AddedUserPropertyToContentModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705191612352_Thumbnail Url property.resx">
+      <DependentUpon>201705191612352_Thumbnail Url property.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

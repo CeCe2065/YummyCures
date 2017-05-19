@@ -18,11 +18,20 @@ namespace YummyCures.Controllers
 
         // GET: Contents
         public ActionResult Index()
+
         {
+            //added the following line
+            ContentIndexViewModel viewModel = new ContentIndexViewModel();
+
             var contents = db.Contents.Include(c => c.ContentType).Include(u => u.User);
             string userID = User.Identity.GetUserId();
-            return View(contents.Where(p => p.UserID == userID).ToList());
 
+            //added 4 lines below
+
+            viewModel.Videos = db.Contents.Where(p => p.UserID == userID).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
+            viewModel.Recipes = db.Contents.Where(p => p.UserID == userID).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
+            viewModel.Articles = db.Contents.Where(p => p.UserID == userID).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
+            return View(viewModel);
         }
 
         // GET: Contents/Details/5
