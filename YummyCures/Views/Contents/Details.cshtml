@@ -72,6 +72,13 @@
     {
         <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
     }
+
+    @if (Model.ContentType.ContentTypeDescription == "Recipe")
+    {
+        <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
+    }
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ContentID }) |
