@@ -58,7 +58,20 @@
             @Html.DisplayFor(model => model.PreviewUrl)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.ThumbNailUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThumbNailUrl)
+        </dd>
+
     </dl>
+
+    @if (Model.ContentType.ContentTypeDescription == "Video")
+    {
+        <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ContentID }) |

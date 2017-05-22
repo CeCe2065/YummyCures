@@ -28,11 +28,22 @@ namespace YummyCures.Controllers
 
             //added 4 lines below
 
-            viewModel.Videos = db.Contents.Where(p => p.UserID == userID).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
-            viewModel.Recipes = db.Contents.Where(p => p.UserID == userID).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
-            viewModel.Articles = db.Contents.Where(p => p.UserID == userID).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
+            viewModel.Videos = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 1).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
+            viewModel.Recipes = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 3).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
+            viewModel.Articles = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 2).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
             return View(viewModel);
         }
+
+
+        // GET: Contents/Search?Term=searchterm
+        //public ActionResult Search(SearchViewModel search)
+        //{
+        //string userID = User.Identity.GetUserId();
+
+        //This tells MVC to return the index view but pass in data that only matches our search term.
+        // return View("Index", db.Contents.Where(p => p.UserID == userID && (p.Description.Contains(search.Term) || string.IsNullOrEmpty(search.Term))).ToList());
+        // }
+
 
         // GET: Contents/Details/5
         public ActionResult Details(int? id)
@@ -41,7 +52,7 @@ namespace YummyCures.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Content content = db.Contents.Find(id);
+            Content content = db.Contents.Include( c => c.ContentType ).Where( c => c.ContentID == id).FirstOrDefault();
             if (content == null)
             {
                 return HttpNotFound();
@@ -61,7 +72,7 @@ namespace YummyCures.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ContentID,ContentCreatedDate,UserID,ContentTypeID,Title,ContentBody,PreviewUrl")] Content content)
+        public ActionResult Create([Bind(Include = "ContentID,ContentCreatedDate,UserID,ContentTypeID,Title,ContentBody,PreviewUrl,ThumbNailUrl")] Content content)
         {
 
             content.UserID = User.Identity.GetUserId();
@@ -101,7 +112,7 @@ namespace YummyCures.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContentID,ContentCreatedDate,UserID,ContentTypeID,Title,ContentBody,PreviewUrl")] Content content)
+        public ActionResult Edit([Bind(Include = "ContentID,ContentCreatedDate,UserID,ContentTypeID,Title,ContentBody,PreviewUrl,ThumbNailUrl")] Content content)
         {
             //Going to get the original and move all the properties over from the project that is passed in.
             string userID = User.Identity.GetUserId();
@@ -117,6 +128,7 @@ namespace YummyCures.Controllers
             originalContent.ContentBody = content.ContentBody;
             originalContent.Title = content.Title;
             originalContent.PreviewUrl = content.PreviewUrl;
+            originalContent.ThumbNailUrl = content.ThumbNailUrl;
 
             //content.UserID = User.Identity.GetUserId();
             if (ModelState.IsValid)
