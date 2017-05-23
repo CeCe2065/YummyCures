@@ -28,21 +28,25 @@ namespace YummyCures.Controllers
 
             //added 4 lines below
 
-            viewModel.Videos = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 1).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
-            viewModel.Recipes = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 3).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
-            viewModel.Articles = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 2).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(3).ToList();
+            viewModel.Videos = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 1).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
+            viewModel.Recipes = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 3).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
+            viewModel.Articles = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 2).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
             return View(viewModel);
         }
-
-
         // GET: Contents/Search?Term=searchterm
-        //public ActionResult Search(SearchViewModel search)
-        //{
-        //string userID = User.Identity.GetUserId();
+        public ActionResult Search(SearchViewModel search)
+        {
+            ContentIndexViewModel viewModel = new ContentIndexViewModel();
 
-        //This tells MVC to return the index view but pass in data that only matches our search term.
-        // return View("Index", db.Contents.Where(p => p.UserID == userID && (p.Description.Contains(search.Term) || string.IsNullOrEmpty(search.Term))).ToList());
-        // }
+            var contents = db.Contents.Include(c => c.ContentType).Include(u => u.User);
+            string userID = User.Identity.GetUserId();
+
+            //This tells MVC to return the index view but pass in data that only matches our search term.
+            viewModel.Videos = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 1 && p.ContentBody.Contains(search.Term)).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
+            viewModel.Recipes = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 3 && p.ContentBody.Contains(search.Term)).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
+            viewModel.Articles = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 2 && p.ContentBody.Contains(search.Term)).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
+            return View("Index", viewModel);
+        }
 
 
         // GET: Contents/Details/5
@@ -52,7 +56,7 @@ namespace YummyCures.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Content content = db.Contents.Include( c => c.ContentType ).Where( c => c.ContentID == id).FirstOrDefault();
+            Content content = db.Contents.Include(c => c.ContentType).Where(c => c.ContentID == id).FirstOrDefault();
             if (content == null)
             {
                 return HttpNotFound();

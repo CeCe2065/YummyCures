@@ -18,22 +18,67 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Yummy Cures", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Yummy Cures", "Index", "Contents", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Contents")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
+
+    <div class="col-lg-3 navbar-right">
+        <form class="navbar-form" role="search" method="get" action="/contents/search">
+                <div class="input-group">
+                        @{
+                                //(Request.QueryString.Get("Term") ?? "") using the null-coalescing operator to check for a null string.
+                                //In english it is saying if the value to the left of ?? is null then use the value on the right. This only works with reference types. Ints need not apply.
+                                //Using an empty string if Term is null.
+                                //This is looking for Term=asearchterm in the URL
+                                //using the null-coalescing operator to check for a null string. Using an empty string if Term is null. This is looking for Term=asearchterm in the URL
+                                //https://docs.microsoft.com/en-us/dotnet/articles/csharp/language-reference/operators/null-conditional-operator
+                            }
+                        <input type="text" class="form-control input-sm" placeholder="Search" name="Term" value="@(Request.QueryString.Get("Term") ?? "")">
+                        <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-search"></i></button>
+                                
+                            </span>
+                            
+                        </div>
+                        
+                    </form>
+                    
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Call to Action Section -->
+
+    <div class="well">
+        <div class="row">
+            <div class="col-md-8">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-lg btn-default btn-block" href="#">Call to Action</a>
+            </div>
+        </div>
+    </div>
+
+
+
     @RenderSection("headerCarousel", required: false);
     <div class="container body-content">
         @RenderBody()
         <hr />
+
+
+
+
+
+
         <!-- Footer -->
         <footer>
             <div class="row">

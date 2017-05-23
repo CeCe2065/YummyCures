@@ -11,6 +11,8 @@ namespace YummyCures.Models
         public int ContentID { get; set; }
         public DateTime ContentCreatedDate { get; set; }
 
+        public string Description { get; set; }
+
 
         public ApplicationUser User { get; set; }
         public string UserID { get; set; }
