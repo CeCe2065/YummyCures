@@ -37,5 +37,7 @@ namespace YummyCures.Models
         public System.Data.Entity.DbSet<YummyCures.Models.ContentType> ContentTypes { get; set; }
 
         public System.Data.Entity.DbSet<YummyCures.Models.Ingredient> Ingredients { get; set; }
+
+        public System.Data.Entity.DbSet<YummyCures.Models.Tag> Tags { get; set; }
     }
 }

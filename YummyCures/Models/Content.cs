@@ -30,5 +30,6 @@ namespace YummyCures.Models
         public string ThumbNailUrl { get; set; }
 
         public List<Ingredient> Ingredients { get; set; }
+        public List<Tag> Tags { get; set; }
     }
 }
