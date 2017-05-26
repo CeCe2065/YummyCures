@@ -41,11 +41,11 @@ namespace YummyCures.Controllers
             var contents = db.Contents.Include(c => c.ContentType).Include(u => u.User);
             string userID = User.Identity.GetUserId();
 
-            //This tells MVC to return the index view but pass in data that only matches our search term.
+            //This tells MVC to return the search view but pass in data that only matches our search term.
             viewModel.Videos = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 1 && p.ContentBody.Contains(search.Term)).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
             viewModel.Recipes = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 3 && p.ContentBody.Contains(search.Term)).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
             viewModel.Articles = db.Contents.Where(p => p.UserID == userID && p.ContentTypeID == 2 && p.ContentBody.Contains(search.Term)).Include(p => p.ContentType).OrderBy(p => p.ContentCreatedDate).Take(4).ToList();
-            return View("Index", viewModel);
+            return View(viewModel);
         }
 
 

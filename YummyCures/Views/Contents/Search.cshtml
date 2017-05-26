@@ -1,17 +1,139 @@
-﻿@{
-    Layout = null;
+﻿@model YummyCures.Models.ContentIndexViewModel
+
+@{
+    ViewBag.Title = "Contents";
+
+}
+      <!-- Blog Post Row -->
+
+@*@foreach (var item in Model.Videos)
+{
+     Contents Row 
+
+    <div class="col-md-6 img-portfolio">
+        <a href="@Url.Action("Details", new { id = item.ContentID })">
+            <img class="img-responsive img-hover" src="@(item.ThumbNailUrl ?? "http://placehold.it/700x400")" alt="">
+        </a>
+        <h3>
+            @Html.ActionLink(item.Title, "Details", "Contents", new { id = item.ContentID }, new { })
+        </h3>
+    </div>
+
+}*@
+
+
+@foreach (var item in Model.Videos)
+{
+
+    <div class="row">
+        <div class="col-md-1 text-center">
+            <p>
+                <i class="fa fa-film fa-4x"></i>
+            </p>
+            <p>June 17, 2014</p>
+        </div>
+        <div class="col-md-5">
+            <a href="@Url.Action("Details", new { id = item.ContentID })">
+                <img class="img-responsive img-hover" src="@(item.ThumbNailUrl ?? "http://placehold.it/600x300")" alt="">
+            </a>
+        </div>
+        <div class="col-md-6">
+            <h3>
+                <a href="blog-post.html">Blog Post Title</a>
+            </h3>
+            <p>
+                by <a href="#">Start Bootstrap</a>
+            </p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ContentID })">Watch <i class="fa fa-angle-right"></i></a>
+        </div>
+    </div>
+    <hr>
+
+}
+        <!-- /.row -->
+
+
+   <!-- Blog Post Row -->
+
+@foreach (var item in Model.Recipes)
+{
+
+<div class="row">
+    <div class="col-md-1 text-center">
+        <p>
+            <i class="fa fa-film fa-4x"></i>
+        </p>
+        <p>June 17, 2014</p>
+    </div>
+    <div class="col-md-5">
+        <a href="@Url.Action("Details", new { id = item.ContentID })">
+            <img class="img-responsive img-hover" src="@(item.ThumbNailUrl ?? "http://placehold.it/600x300")" alt="">
+        </a>
+    </div>
+    <div class="col-md-6">
+        <h3>
+            <a href="blog-post.html">Blog Post Title</a>
+        </h3>
+        <p>
+            by <a href="#">Start Bootstrap</a>
+        </p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ContentID })">Watch <i class="fa fa-angle-right"></i></a>
+    </div>
+</div>
+<hr>
+
+}
+<!-- /.row -->
+
+
+ <!-- Blog Post Row -->
+
+
+@foreach (var item in Model.Articles)
+{
+
+<div class="row">
+    <div class="col-md-1 text-center">
+        <p>
+            <i class="fa fa-file-text fa-4x"></i>
+        </p>
+        <p>June 17, 2014</p>
+    </div>
+    <div class="col-md-5">
+        <a href="@Url.Action("Details", new { id = item.ContentID })">
+            <img class="img-responsive img-hover" src="@(item.ThumbNailUrl ?? "http://placehold.it/600x300")" alt="">
+        </a>
+    </div>
+    <div class="col-md-6">
+        <h3>
+            <a href="blog-post.html">Blog Post Title</a>
+        </h3>
+        <p>
+            by <a href="#">Start Bootstrap</a>
+        </p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ContentID })">Read More <i class="fa fa-angle-right"></i></a>
+    </div>
+</div>
+<hr>
+
 }
 
-<!DOCTYPE html>
+<!-- /.row -->
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
-    </div>
-</body>
-</html>
+
+<!-- Pager -->
+<div class="row">
+    <ul class="pager">
+        <li class="previous">
+            <a href="#">&larr; Older</a>
+        </li>
+        <li class="next">
+            <a href="#">Newer &rarr;</a>
+        </li>
+    </ul>
+</div>
+<!-- /.row -->
+
