@@ -1,4 +1,4 @@
-﻿@model YummyCures.Models.Content
+﻿@model YummyCures.Models.EditContentViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -12,56 +12,67 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
+
         <h4>Content</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ContentID)
+        @Html.HiddenFor(model => model.Content.ContentID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContentCreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ContentCreatedDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContentCreatedDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Content.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContentTypeID, "ContentTypeID", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.AllTags, "Tags", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                @Html.ListBoxFor(m => m.SelectedTags, Model.AllTags)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content.ContentTypeID, "ContentTypeID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ContentTypeID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ContentTypeID, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Content.ContentTypeID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Content.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content.Title, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContentBody, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content.ContentBody, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ContentBody, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContentBody, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Content.ContentBody, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content.ContentBody, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PreviewUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content.PreviewUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PreviewUrl, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PreviewUrl, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Content.PreviewUrl, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content.PreviewUrl, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ThumbNailUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content.ThumbNailUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ThumbNailUrl, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ThumbNailUrl, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Content.ThumbNailUrl, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content.ThumbNailUrl, "", new { @class = "text-danger" })
             </div>
         </div>
 

@@ -101,14 +101,26 @@ namespace YummyCures.Controllers
             }
 
             string userID = User.Identity.GetUserId();
-            Content content = db.Contents.Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
+            Content content = db.Contents.Include(p => p.Tags).Where(p => p.UserID == userID && p.ContentID == id).FirstOrDefault();
 
             if (content == null)
             {
                 return HttpNotFound();
             }
             ViewBag.ContentTypeID = new SelectList(db.ContentTypes, "ContentTypeID", "ContentTypeDescription", content.ContentTypeID);
-            return View(content);
+
+
+            EditContentViewModel viewModel = new EditContentViewModel();
+            viewModel.Content = content;
+            viewModel.AllTags = (from t in db.Tags
+                                 select new SelectListItem()
+                                 {
+                                     Value = t.TagID.ToString(),
+                                     Text = t.Description
+                                 }).ToList();
+
+            return View(viewModel);
+
         }
 
         // POST: Contents/Edit/5
@@ -116,33 +128,61 @@ namespace YummyCures.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContentID,ContentCreatedDate,UserID,ContentTypeID,Title,ContentBody,PreviewUrl,ThumbNailUrl")] Content content)
+        public ActionResult Edit(EditContentViewModel model) //Originally this prarmeter was named project. But project conflicted with the project property on the view model so I had to change it. WOW!
         {
             //Going to get the original and move all the properties over from the project that is passed in.
             string userID = User.Identity.GetUserId();
-            Content originalContent = db.Contents.Where(p => p.UserID == userID && p.ContentID == content.ContentID).FirstOrDefault();
-
+            Content originalContent = db.Contents.Include(p => p.Tags).Where(p => p.UserID == userID && p.ContentID == model.Content.ContentID).FirstOrDefault();
             if (originalContent == null)
             {
                 return HttpNotFound();
             }
 
             //Move over all the properties that need to be set.
-            originalContent.ContentTypeID = content.ContentTypeID;
-            originalContent.ContentBody = content.ContentBody;
-            originalContent.Title = content.Title;
-            originalContent.PreviewUrl = content.PreviewUrl;
-            originalContent.ThumbNailUrl = content.ThumbNailUrl;
+            originalContent.ContentTypeID = model.Content.ContentTypeID;
+            originalContent.ContentBody = model.Content.ContentBody;
+            originalContent.Title = model.Content.Title;
+            originalContent.PreviewUrl = model.Content.PreviewUrl;
+            originalContent.ThumbNailUrl = model.Content.ThumbNailUrl;
 
-            //content.UserID = User.Identity.GetUserId();
+            originalContent.Description = model.Content.Description;
+
+            //Add the tags that were selected.
+            foreach (int TagID in model.SelectedTags)
+            {
+                if (!originalContent.Tags.Any(p => p.TagID == TagID))
+                {
+                    var tag = db.Tags.Find(TagID);
+                    originalContent.Tags.Add(tag);
+                }
+            }
+
+            //remove tags that were unchecked
+            var deletedTags = from t in originalContent.Tags
+                              where !model.SelectedTags.Contains(t.TagID)
+                              select t;
+            originalContent.Tags.RemoveAll(t => deletedTags.Contains(t));
+
             if (ModelState.IsValid)
             {
                 db.Entry(originalContent).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ContentTypeID = new SelectList(db.ContentTypes, "ContentTypeID", "ContentTypeDescription", content.ContentTypeID);
-            return View(content);
+            ViewBag.ContentTypeID = new SelectList(db.ContentTypes, "ContentTypeID", "ContentTypeDescription", model.Content.ContentTypeID);
+
+
+            model.AllTags = (from t in db.Tags
+                             select new SelectListItem()
+                             {
+                                 Value = t.TagID.ToString(),
+                                 Text = t.Description
+                             }).ToList();
+
+            return View(model);
+
+
+
         }
 
         // GET: Contents/Delete/5

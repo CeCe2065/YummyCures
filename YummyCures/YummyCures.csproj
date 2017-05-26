@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201705221924239_SearchViewModel.Designer.cs">
       <DependentUpon>201705221924239_SearchViewModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705252144034_Added Tags.cs" />
+    <Compile Include="Migrations\201705252144034_Added Tags.Designer.cs">
+      <DependentUpon>201705252144034_Added Tags.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -391,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705221924239_SearchViewModel.resx">
       <DependentUpon>201705221924239_SearchViewModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705252144034_Added Tags.resx">
+      <DependentUpon>201705252144034_Added Tags.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
