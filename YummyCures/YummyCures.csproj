@@ -206,6 +206,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -240,6 +241,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -364,6 +366,11 @@
     <Content Include="Views\Tags\Details.cshtml" />
     <Content Include="Views\Tags\Edit.cshtml" />
     <Content Include="Views\Tags\Index.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

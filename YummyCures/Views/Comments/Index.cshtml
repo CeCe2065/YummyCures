@@ -29,6 +29,9 @@
         <th>
             @Html.DisplayNameFor(model => model.CommentBody)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Post.Title)            
+        </th>
         <th></th>
     </tr>
 
@@ -52,6 +55,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.CommentBody)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Post.Title)           
+        </td>
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CommentID }) |
             @Html.ActionLink("Details", "Details", new { id=item.CommentID }) |

@@ -23,7 +23,8 @@ namespace YummyCures.Models
         [DataType(DataType.MultilineText)]
         public string CommentBody { get; set; }
 
-
+        public int PostID { get; set; }
+        public Post Post { get; set; }
 
     }
 }
