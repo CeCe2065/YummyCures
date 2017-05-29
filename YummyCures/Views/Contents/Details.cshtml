@@ -20,6 +20,11 @@
         <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
     }
 
+    @if (Model.ContentType.ContentTypeDescription == "Article")
+    {
+        <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
+    }
+
 
     <dl class="dl-horizontal">
         <dt>
