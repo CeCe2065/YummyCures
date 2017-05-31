@@ -40,6 +40,5 @@ namespace YummyCures.Models
 
         public System.Data.Entity.DbSet<YummyCures.Models.Tag> Tags { get; set; }
 
-        public System.Data.Entity.DbSet<YummyCures.Models.Post> Posts { get; set; }
     }
 }

@@ -17,6 +17,8 @@ namespace YummyCures.Models
         public Content Content { get; set; }
         public IEnumerable<SelectListItem> AllTags { get; set; }
 
+        public IEnumerable<SelectListItem> ContentTypesSelectItems { get; set; }
+
         private List<int> _selectedTags;
         public List<int> SelectedTags
         {

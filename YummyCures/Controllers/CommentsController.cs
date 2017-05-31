@@ -48,22 +48,22 @@ namespace YummyCures.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CommentID,ContentID,CommentCreatedDate,FirstName,EmailAddress,CommentUrl,CommentBody")] Comment comment)
+        public ActionResult Create(ContentDetailViewModel detailViewModel)
         {
-
-            comment.CommentCreatedDate = DateTime.Now;
-
+            detailViewModel.NewComment.CommentCreatedDate = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.Comments.Add(comment);
+                db.Comments.Add(detailViewModel.NewComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
-            ViewBag.ContentID = new SelectList(db.Contents, "ContentID", "UserID", comment.ContentID);
-            return View(comment);
+            return RedirectToRoute(new
+            {
+                controller = "Contents",
+                action = "Details",
+                Id = detailViewModel.NewComment.ContentID
+            });
         }
-
         // GET: Comments/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -76,7 +76,7 @@ namespace YummyCures.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ContentID = new SelectList(db.Contents, "ContentID", "UserID", comment.ContentID);
+            ViewBag.PostID = new SelectList(db.Contents, "ContentID", "UserID", "Title", comment.ContentID);
             return View(comment);
         }
 
@@ -85,7 +85,7 @@ namespace YummyCures.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentID,ContentID,CommentCreatedDate,FirstName,EmailAddress,CommentUrl,CommentBody")] Comment comment)
+        public ActionResult Edit(Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace YummyCures.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ContentID = new SelectList(db.Contents, "ContentID", "UserID", comment.ContentID);
+            ViewBag.PostID = new SelectList(db.Contents, "ContentID", "UserID", "Title", comment.ContentID);
             return View(comment);
         }
 

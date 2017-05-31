@@ -1,4 +1,4 @@
-﻿@model YummyCures.Models.Content
+﻿@model YummyCures.Models.ContentDetailViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -10,86 +10,114 @@
     <h4>Content</h4>
     <hr />
 
-    @if (Model.ContentType.ContentTypeDescription == "Video")
+    @if (Model.Content.ContentType.ContentTypeDescription == "Video")
     {
-        <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="@Model.Content.PreviewUrl" frameborder="0" allowfullscreen></iframe>
     }
 
-    @if (Model.ContentType.ContentTypeDescription == "Recipe")
+    @if (Model.Content.ContentType.ContentTypeDescription == "Recipe")
     {
-        <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="@Model.Content.PreviewUrl" frameborder="0" allowfullscreen></iframe>
     }
 
-    @if (Model.ContentType.ContentTypeDescription == "Article")
+    @if (Model.Content.ContentType.ContentTypeDescription == "Article")
     {
-        <iframe width="560" height="315" src="@Model.PreviewUrl" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="@Model.Content.PreviewUrl" frameborder="0" allowfullscreen></iframe>
     }
 
 
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ContentType.ContentTypeDescription)
+            @Html.DisplayNameFor(model => model.Content.ContentType.ContentTypeDescription)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ContentType.ContentTypeDescription)
+            @Html.DisplayFor(model => model.Content.ContentType.ContentTypeDescription)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ContentCreatedDate)
+            @Html.DisplayNameFor(model => model.Content.ContentCreatedDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ContentCreatedDate)
+            @Html.DisplayFor(model => model.Content.ContentCreatedDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserID)
+            @Html.DisplayNameFor(model => model.Content.UserID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.Email)
+            @Html.DisplayFor(model => model.Content.User.Email)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Content.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Content.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ContentBody)
+            @Html.DisplayNameFor(model => model.Content.ContentBody)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ContentBody)
+            @Html.DisplayFor(model => model.Content.ContentBody)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PreviewUrl)
+            @Html.DisplayNameFor(model => model.Content.PreviewUrl)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PreviewUrl)
+            @Html.DisplayFor(model => model.Content.PreviewUrl)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ThumbNailUrl)
+            @Html.DisplayNameFor(model => model.Content.ThumbNailUrl)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ThumbNailUrl)
+            @Html.DisplayFor(model => model.Content.ThumbNailUrl)
         </dd>
 
     </dl>
-
-
-
-
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ContentID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Content.ContentID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<h3>Comments</h3>
+@using (Html.BeginForm("Create", "Comments"))
+{
+    @Html.AntiForgeryToken()
+                
+    <div class="form-horizontal">
+        <h4>Add Comment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.NewComment.CommentBody, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("Body", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.NewComment.ContentID, new {  })
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type = "submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@foreach(YummyCures.Models.Comment comment in Model.Content.Comments)
+{
+    <div>@comment.CommentBody</div>
+    <hr />
+}

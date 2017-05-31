@@ -31,5 +31,7 @@ namespace YummyCures.Models
 
         public List<Ingredient> Ingredients { get; set; }
         public List<Tag> Tags { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }

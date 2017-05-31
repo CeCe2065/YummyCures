@@ -56,12 +56,23 @@ namespace YummyCures.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Content content = db.Contents.Include(c => c.ContentType).Where(c => c.ContentID == id).FirstOrDefault();
+            int ContentID = id.GetValueOrDefault();
+            Content content = db.Contents.Include(c => c.ContentType).Include(c => c.Comments).Where(c => c.ContentID == id).FirstOrDefault();
+
+
             if (content == null)
             {
                 return HttpNotFound();
             }
-            return View(content);
+            ContentDetailViewModel viewModel = new ContentDetailViewModel();
+            viewModel.Content = content;
+            viewModel.NewComment = new Comment();
+
+            //We have to do this to get the right post id value into the hidden postid field on the comments form.
+            viewModel.NewComment.ContentID = content.ContentID;
+
+            return View(viewModel);
+
         }
 
         // GET: Contents/Create
@@ -111,6 +122,7 @@ namespace YummyCures.Controllers
 
 
             EditContentViewModel viewModel = new EditContentViewModel();
+            viewModel.ContentTypesSelectItems = new SelectList(db.ContentTypes, "ContentTypeID", "ContentTypeDescription", content.ContentTypeID);
             viewModel.Content = content;
             viewModel.AllTags = (from t in db.Tags
                                  select new SelectListItem()
@@ -167,7 +179,12 @@ namespace YummyCures.Controllers
             {
                 db.Entry(originalContent).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToRoute(new
+                {
+                    controller = "Contents",
+                    action = "Details",
+                    Id = originalContent.ContentID
+                });
             }
             ViewBag.ContentTypeID = new SelectList(db.ContentTypes, "ContentTypeID", "ContentTypeDescription", model.Content.ContentTypeID);
 
